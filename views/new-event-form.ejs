@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add new event image</title>
+</head>
+<body>
+    <form action="/latest/event" method="POST" >
+        <!-- enctype="multipart/form-data" -->
+        <label for="title">Title: </label>
+        <input type="text" name="title">
+        <br/>
+
+        <label for="gallerywrap">Gallery wrap: </label>
+        <button type="button" onClick = "add()">+</button>
+        <button type="button" onClick = "remove()">-</button>
+        <div id="input">
+            <input type="text" name="gallerywrap[]" value="">
+        </div>
+        <br/>
+
+        <label for="bio">Bio: </label>
+        <input type="text" name="bio" value="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo dolore, vitae animi exercitationem ex sed eius, tempora cum aperiam magni suscipit placeat magnam tenetur nam culpa debitis! Nisi, quisquam reiciendis!">
+        <br/>
+        <label for="description">Description: </label>
+        <input type="text" name="description" value="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo dolore, vitae animi exercitationem ex sed eius, tempora cum aperiam magni suscipit placeat magnam tenetur nam culpa debitis! Nisi, quisquam reiciendis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo dolore, vitae animi exercitationem ex sed eius, tempora cum aperiam magni suscipit placeat magnam tenetur nam culpa debitis! Nisi, quisquam reiciendis!">
+        <br/>
+        <label for="date">Date: </label>
+        <input type="text" name="date">
+        <br/>
+
+        <button>create</button>
+    </form>
+    <script>
+        function add() {
+            const newinput = document.createElement("input");
+            newinput.type = "text";
+            newinput.name = "gallerywrap[]";
+            newinput.value = "";
+            document.getElementById("input").appendChild(newinput);
+        }
+        function remove() {
+            const input = document.getElementById("input")
+            input.removeChild(input.lastElementChild);
+        }
+    </script>
+</body>
+</html>

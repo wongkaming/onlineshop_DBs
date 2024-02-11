@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= eventID.name %>'s page</title>
+    <style>
+        table {
+            border: 1px solid black;
+            width: 50%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>ID</td>
+            <td><%= eventID._id %></td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td><%= eventID.title %></td>
+        </tr>
+        <tr>
+            <td>Gallery Wrap</td>
+            <td><%= eventID.gallerywrap %></td>
+        </tr>
+        <tr>
+            <td>Bio</td>
+            <td><%= eventID.bio %></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><%= eventID.description %></td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td><%= eventID.date %></td>
+        </tr>
+
+    </table>
+    <a href="/latest/event">back to homepage</a>
+    <a href="/latest/event/<%= eventID._id %>/edit">edit</a>
+    <a href="/latest/event/<%= eventID._id %>/delete">delete</a>
+</body>
+</html>

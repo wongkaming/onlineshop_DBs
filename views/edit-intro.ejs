@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>edit</title>
+</head>
+<body>
+    <form action="/latest/intro/<%= introID._id %>?_method=PUT" method="POST">
+        <label for="title">Title: </label>
+        <input type="text" name="title" value="<%= introID.title %>">
+        <br/>
+        <label for="description">Description: </label>
+        <input type="text" name="description" value="<%= introID.description %>">
+        <br/>
+        <label for="category">Category: </label>
+        <input type="text" name="category" value="<%= introID.category %>">
+        <br/><br/>
+
+        <label for="coverimage">Coverimage path: </label>
+        <input type="text" name="coverimage" value="<%= introID.coverimage %>">
+        <br/>
+        <label for="hostimage1">Hostimage1: </label>
+        <input type="text" name="hostimage1" value="<%= introID.hostimage1 %>">
+        <br/>
+        <label for="hostimage2">Hostimage2: </label>
+        <input type="text" name="hostimage2" value="<%= introID.hostimage2 %>">
+        <br/>
+        <label for="hostimage3">Hostimage3: </label>
+        <input type="text" name="hostimage3" value="<%= introID.hostimage3 %>">
+        <br/>
+        <button>update</button>
+    </form>
+</body>
+</html>

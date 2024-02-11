@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add new intro image</title>
+</head>
+<body>
+    <form action="/latest/clothes" method="POST" >
+        <!-- enctype="multipart/form-data" -->
+        <label for="title">Title: </label>
+        <input type="text" name="title">
+        <br/>
+
+        <label for="gallerywrap">Gallery wrap: </label>
+        <button type="button" onClick = "add()">+</button>
+        <button type="button" onClick = "remove()">-</button>
+        <div id="input">
+            <input type="text" name="galleryWrap[]" value="">
+        </div>
+        <br/>
+
+        <label for="category">Category: </label>
+        <input type="text" name="category">
+        <br/>
+        <label for="description">Description: </label>
+        <input type="text" name="description">
+        <br/>
+        <label for="price">Price: </label>
+        <input type="text" name="price">
+        <br/>
+        <label for="dicountags">Dicount tags: </label>
+        <input type="text" name="dicountTags">
+        <br/>
+
+        <label for="typeSelector">Type selector: </label>
+        <button type="button" onClick = "show()">+</button>
+        <button type="button" onClick = "del()">-</button>
+        <br/>
+        <div id="input1">    
+            <input type="text" name="typeSelector[]" value=""/>
+        </div>
+        <br/>
+
+        <label for="sizeSelector">Size selector: </label>
+        <button type="button" onClick = "more()">+</button>
+        <button type="button" onClick = "delFromFirst()">-F</button>
+        <button type="button" onClick = "delFromLast()">-L</button>
+        <br/>
+        <div id="input2">
+            <input type="text" name="sizeSelector[]" value="XS"/>
+            <input type="text" name="sizeSelector[]" value="S"/>
+            <input type="text" name="sizeSelector[]" value="M"/>
+            <input type="text" name="sizeSelector[]" value="L"/>
+            <input type="text" name="sizeSelector[]" value="XL"/>
+        </div>
+        <br/>
+        <label for="model3d">Model 3d: </label>
+        <input type="text" name="model3d">
+        <br/>
+        <button>create</button>
+    </form>
+    <script>
+        function add() {
+            const newinput = document.createElement("input");
+            newinput.type = "text";
+            newinput.name = "galleryWrap[]";
+            newinput.value = "";
+            document.getElementById("input").appendChild(newinput);
+        }
+        function remove() {
+            const input = document.getElementById("input")
+            input.removeChild(input.lastElementChild);
+        }
+
+        function show() {
+            const newinput = document.createElement("input");
+            newinput.type = "text";
+            newinput.name = "typeSelector[]";
+            newinput.value = "";
+            document.getElementById("input1").appendChild(newinput);
+        }
+        function del() {
+            const input = document.getElementById("input1")
+            input.removeChild(input.lastElementChild);
+        }
+
+        function more() {
+            const newinput = document.createElement("input");
+            newinput.type = "text";
+            newinput.name = "sizeSelector[]";
+            newinput.value = "";
+            document.getElementById("input2").appendChild(newinput);
+        }
+        function delFromFirst() {
+            const input = document.getElementById("input2")
+            input.removeChild(input.firstElementChild);
+        }
+        function delFromLast() {
+            const input = document.getElementById("input2")
+            input.removeChild(input.lastElementChild);
+        }
+    </script>
+</body>
+</html>

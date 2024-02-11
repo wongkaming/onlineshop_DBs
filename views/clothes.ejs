@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    <h1>Clothes images</h1>
+    <ul>
+        <% data.forEach(e => { %>
+            <li><a href="/latest/clothes/<%= e._id %>"><%= e.title %></a></li>
+            <form action="/latest/clothes/<%= e._id %>" method="POST" style="display: inline;">
+                <input type="hidden" name="itemId" value="<%= e._id %>">
+                <button type="submit">Duplicate</button>
+            </form>
+        <% }) %>
+        <div id="all"></div>
+    </ul>
+    <form action="/latest/clothes/new" method="GET">
+        <button>add new clothes image</button>
+    </form>
+    <script>
+        // function more(response) {
+        //     const newItem = '<li><a href="/latest/clothes/' + response._id + '">' + response.title + '</a></li>' +
+        //         '<form action="/latest/clothes/' + response._id + '" method="POST" style="display: inline;">' +
+        //         '<input type="hidden" name="itemId" value="' + response._id + '">' +
+        //         '<button type="button" onClick="more(' + JSON.stringify(response) + ')">Duplicate</button>' +
+        //         '</form>';
+        //     const newElement = document.createElement('div');
+        //     newElement.innerHTML = newItem;
+        //     document.getElementById("all").appendChild(newElement);
+        // }
+
+        $('form').on('submit', function(event) {
+            event.preventDefault(); // 阻止表单提交
+            var form = $(this);
+            var url = form.attr('action');
+            var itemId = form.find('input[name="itemId"]').val();
+
+            // 发送异步请求到服务器
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: { itemId: itemId },
+                success: function(response) {
+                    // 创建新的列表项元素并插入到列表中
+                    var newItem = '<li><a href="/latest/clothes/' + response._id + '">' + response.title + '</a></li>';
+                    $('#clothesList').append(newItem);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

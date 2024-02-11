@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>success</title>
+    <style>
+        table {
+            border: 1px solid black;
+            width: 50%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h1>success!</h1>
+    <p>below:</p>
+    <table>
+        <tr>
+            <td>ID</td>
+            <td><%= savedEvent._id %></td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td><%= savedEvent.title %></td>
+        </tr>
+        <tr>
+            <td>Gallery Wrap</td>
+            <td><%= savedEvent.gallerywrap %></td>
+        </tr>
+        <tr>
+            <td>Bio</td>
+            <td><%= savedEvent.bio %></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><%= savedEvent.description %></td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td><%= savedEvent.date %></td>
+        </tr>
+
+    </table>
+    <a href="/latest/event">back to homepage</a>
+</body>
+</html>

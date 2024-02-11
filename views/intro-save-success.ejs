@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>success</title>
+    <style>
+        table {
+            border: 1px solid black;
+            width: 50%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h1>success!</h1>
+    <p>below:</p>
+    <table>
+        <tr>
+            <td>ID</td>
+            <td><%= savedIntro._id %></td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td><%= savedIntro.title %></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><%= savedIntro.description %></td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td><%= savedIntro.category %></td>
+        </tr>
+        <tr>
+            <td>Coverimage</td>
+            <td><%= savedIntro.coverimage %></td>
+        </tr>
+        <tr>
+            <td>Hostimage1</td>
+            <td><%= savedIntro.hostimage1 %></td>
+        </tr>
+        <tr>
+            <td>Hostimage2</td>
+            <td><%= savedIntro.hostimage2 %></td>
+        </tr>
+        <tr>
+            <td>Hostimage3</td>
+            <td><%= savedIntro.hostimage3 %></td>
+        </tr>
+    </table>
+    <a href="/latest/intro">back to homepage</a>
+</body>
+</html>

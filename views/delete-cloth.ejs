@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>confirm</title>
+    <style>
+        table {
+            border: 1px solid black;
+            width: 50%;
+            height: 500px;
+            background-color: brown;
+            color: azure;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="/latest/clothes/<%= clothID._id %>?_method=DELETE" method="POST">
+        <table>
+            <tr>
+                <td>ID</td>
+                <td><%= clothID._id %></td>
+            </tr>
+            <tr>
+                <td>Title</td>
+                <td><%= clothID.title %></td>
+            </tr>
+            <tr>
+                <td>Gallery wrap</td>
+                <td><%= clothID.galleryWrap %></td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td><%= clothID.price %></td>
+            </tr>
+            <tr>
+                <td>Dicount tags</td>
+                <td><%= clothID.dicountTags %></td>
+            </tr>
+            <tr>
+                <td>Type Selector</td>
+                <td><%= clothID.typeSelector %></td>
+            </tr>
+            <tr>
+                <td>Size selector</td>
+                <td><%= clothID.sizeSelector %></td>
+            </tr>
+            <tr>
+                <td>Model 3d</td>
+                <td><%= clothID.model3d %></td>
+            </tr>
+        </table>
+        
+        <button>delete</button>
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "lambda": {
+    "role": "onlineshop_db-executor",
+    "name": "onlineshop_db",
+    "region": "ap-southeast-2"
+  },
+  "api": {
+    "id": "1zaqtzgggf"
+  }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>confirm</title>
+    <style>
+        table {
+            border: 1px solid black;
+            width: 50%;
+            height: 500px;
+            background-color: brown;
+            color: azure;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="/latest/intro/<%= introID._id %>?_method=DELETE" method="POST">
+        <table>
+            <tr>
+                <td>ID</td>
+                <td><%= introID._id %></td>
+            </tr>
+            <tr>
+                <td>Title</td>
+                <td><%= introID.title %></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td><%= introID.description %></td>
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td><%= introID.category %></td>
+            </tr>
+    
+            <tr>
+                <td>Coverimage</td>
+                <td><%= introID.coverimage %></td>
+            </tr>
+            <tr>
+                <td>Hostimage1</td>
+                <td><%= introID.hostimage1 %></td>
+            </tr>
+            <tr>
+                <td>Hostimage2</td>
+                <td><%= introID.hostimage2 %></td>
+            </tr>
+            <tr>
+                <td>Hostimage3</td>
+                <td><%= introID.hostimage3 %></td>
+            </tr>
+    
+        </table>
+        <button>delete</button>
+    </form>
+    
+</body>
+</html>

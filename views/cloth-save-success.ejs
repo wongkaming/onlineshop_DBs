@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>success</title>
+    <style>
+        table {
+            border: 1px solid black;
+            width: 50%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h1>success!</h1>
+    <p>below:</p>
+    <table>
+        <tr>
+            <td>ID</td>
+            <td><%= savedCloth._id %></td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td><%= savedCloth.title %></td>
+        </tr>
+        <tr>
+            <td>Gallery wrap</td>
+            <td><%= savedCloth.galleryWrap %></td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td><%= savedCloth.category %></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td><%= savedCloth.description %></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><%= savedCloth.price %></td>
+        </tr>
+        <tr>
+            <td>Dicount tags</td>
+            <td><%= savedCloth.dicountTags %></td>
+        </tr>
+        <tr>
+            <td>Type Selector</td>
+            <td><%= savedCloth.typeSelector %></td>
+        </tr>
+        <tr>
+            <td>Size selector</td>
+            <td><%= savedCloth.sizeSelector %></td>
+        </tr>
+        <tr>
+            <td>Model 3d</td>
+            <td><%= savedCloth.model3d %></td>
+        </tr>
+    </table>
+    <a href="/latest/clothes">back to homepage</a>
+</body>
+</html>

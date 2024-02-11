@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    <h1>Intro images</h1>
+    <ul>
+        <% data.forEach(e => { %>
+            <li><a href="/latest/intro/<%= e._id %>"><%= e.title %></a></li>
+        <% }) %>
+    </ul>
+    <form action="/latest/intro/new" method="GET">
+        <button>add new intro image</button>
+    </form>
+</body>
+</html>

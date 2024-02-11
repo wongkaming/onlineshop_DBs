@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    <h1>Event images</h1>
+    <ul>
+        <% data.forEach(e => { %>
+            <li><a href="/latest/event/<%= e._id %>"><%= e.title %></a></li>
+        <% }) %>
+    </ul>
+    <form action="/latest/event/new" method="GET">
+        <button>add new event</button>
+    </form>
+</body>
+</html>
