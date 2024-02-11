@@ -30,15 +30,15 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: process.env.ORIGIN,
     credentials: true
 }));
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: false,
-        cookie: { secure: false },
+        saveUninitialized: true,
+        cookie: { secure: false, maxAge:60000 },
     })
 );
 app.use(passport.initialize());
@@ -82,8 +82,11 @@ app.use(
 );
 app.use("/latest/profile", profileRoutes);
 
-app.use((err, req, res, next) => {
-    return res.status(400).render("error")
+app.use((req, res, next) => {
+    if(!req.session){
+        return next(new Error('Oh no')) //handle error
+    }
+    next() //otherwise continue
 })
 
 app.listen(4040, () => {
