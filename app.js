@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 // const introRoutes = require("./routes/intro-routes");
-// const clothRoutes = require("./routes/clothes-routes");
+const clothRoutes = require("./routes/clothes-routes");
 const authRoutes = require("./routes/auth");
 const allitemRoutes = require("./routes/allitem-routes");
 const wishlistRoute = require("./routes/wishlist-route");
@@ -46,23 +46,9 @@ app.use(passport.session());
 
 
 // app.use("/latest/intro", introRoutes);
-// app.use("/latest/clothes", clothRoutes);
+app.use("/latest/clothes", clothRoutes);
 // app.use("/latest/event", eventRoute);
-app.get("/latest/clothes/all", async (req, res) => {
-    try {
-        let data = await Cloth.find({}).exec(); // [产品数据...]
-        const page = parseInt(req.query.page) || 1; 
-        const perPage = parseInt(req.query.perPage) || 10;
 
-        const startIndex = (page - 1) * perPage;
-        const endIndex = startIndex + perPage;
-        const paginatedProducts = data.slice(startIndex, endIndex);
-
-        return res.send(paginatedProducts)
-    } catch(e) {
-        return res.status(500).render("not-found")
-    }
-})
 app.get("/latest/event/all", async (req, res) => {
     try {
         let data = await Event.find({}).exec();
