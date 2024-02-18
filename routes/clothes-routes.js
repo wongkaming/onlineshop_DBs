@@ -35,12 +35,12 @@ router.get("/all", async (req, res) => {
 //     return res.render("new-cloth-form");
 // })
 
-// //儲存upload.single('coverimage'),
-// router.post("/",  async (req, res) => { //upload single要與html的name一樣
+
+// router.post("/",  async (req, res) => {
 //     try {
-//         let { title, galleryWrap, category, description, price, dicountTags, typeSelector, sizeSelector, model3d } = req.body;
+//         let { title, galleryWrap, category, description, price, stock, dicountTags, typeSelector, sizeSelector, model3d } = req.body;
 //         let NewCloth = new Cloth({
-//             title, galleryWrap, category, description, price, dicountTags, typeSelector, sizeSelector, model3d
+//             title, galleryWrap, category, description, price, stock, dicountTags, typeSelector, sizeSelector, model3d
 //         });
 //         let savedCloth = await NewCloth.save();
 //         let newBookmark = new ClothesBM({
@@ -64,6 +64,7 @@ router.get("/all", async (req, res) => {
 //             category: clothID.category, 
 //             description: clothID.description,
 //             price: clothID.price, 
+//             stock: clothID.stock, 
 //             dicountTags: clothID.dicountTags, 
 //             typeSelector: clothID.typeSelector, 
 //             sizeSelector: clothID.sizeSelector,
@@ -129,12 +130,12 @@ router.get("/item/:_id", async (req, res, next) => {
 
 // // save and update page
 // router.put("/:_id", async (req, res) => {
-//     let { title, galleryWrap, category, description, price, dicountTags, typeSelector, sizeSelector, model3d} = req.body;
+//     let { title, galleryWrap, category, description, price, stock, dicountTags, typeSelector, sizeSelector, model3d} = req.body;
 //     let { _id } = req.params;
 //     try {
 //         let updatedCloth = await Cloth.findOneAndUpdate(
 //         {_id}, 
-//         { title, galleryWrap, category, description, price, dicountTags, typeSelector, sizeSelector, model3d}, 
+//         { title, galleryWrap, category, description, price, stock, dicountTags, typeSelector, sizeSelector, model3d}, 
 //         {
 //             new: true, 
 //             runValidators: true, 
@@ -150,11 +151,11 @@ router.get("/item/:_id", async (req, res, next) => {
 // router.patch("/:_id", async (req, res) => {
 //     try {
 //       let { _id } = req.params;
-//       let { title, galleryWrap, category, description, price, dicountTags, typeSelector, sizeSelector, model3d} = req.body;
+//       let { title, galleryWrap, category, description, price, stock, dicountTags, typeSelector, sizeSelector, model3d} = req.body;
    
 //       let newData = await Cloth.findByIdAndUpdate(
 //         { _id },
-//         { title, galleryWrap, category, description, price, dicountTags, typeSelector, sizeSelector, model3d},
+//         { title, galleryWrap, category, description, price, stock, dicountTags, typeSelector, sizeSelector, model3d},
 //         {
 //           new: true,
 //           runValidators: true,

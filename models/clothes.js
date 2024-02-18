@@ -8,6 +8,7 @@ const clothesSchema = new Schema({
     category: {type: String, require: true},
     description: {type: String, require: true, minlength: 10},
     price: {type: Number, require: true},
+    stock: {type: Number, require: true},
     dicountTags: {type: String},
     typeSelector: [String],
     sizeSelector: [String],

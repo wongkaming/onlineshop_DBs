@@ -87,8 +87,8 @@ router.post("/", async (req, res) => {
         }
 
       let newWishlist = new Wishlist({
-        item: clothID._id,
-        user: req.user._id,
+        item: clothID,
+        user: req.user,
       });
       let savedWishlist = await newWishlist.save();
       let updatedData = await ClothesBM.findOneAndUpdate({item: clothID._id}, { $push: { user: savedWishlist.user }}).exec();

@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const wishlistSchema = new Schema({
-  id: { type: String },
   item: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Clothe",

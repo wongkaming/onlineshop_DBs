@@ -7,9 +7,9 @@ const clothRoutes = require("./routes/clothes-routes");
 const authRoutes = require("./routes/auth");
 const allitemRoutes = require("./routes/allitem-routes");
 const wishlistRoute = require("./routes/wishlist-route");
+const cartRoute = require("./routes/cart-routes");
 // const eventRoute = require("./routes/event-route");
 const profileRoutes = require("./routes/profile-routes");
-const Cloth = require("./models/clothes");
 const Event = require("./models/event");
 
 const cors = require("cors");
@@ -65,6 +65,11 @@ app.use(
     "/latest/user/wishlist",
     passport.authenticate("jwt", { session: false }),
     wishlistRoute
+);
+app.use(
+    "/latest/user/cart",
+    passport.authenticate("jwt", { session: false }),
+    cartRoute
 );
 app.use("/latest/profile", profileRoutes);
 

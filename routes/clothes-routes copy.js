@@ -54,6 +54,7 @@ router.post("/",  async (req, res) => { //upload single要與html的name一樣
 
 });
 
+//Duplicate
 router.post("/:_id",  async (req, res) => { 
     let { _id } = req.params;
     try {
