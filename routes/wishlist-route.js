@@ -21,7 +21,7 @@ router.get("/admin", async (req, res) => {
         .populate("item", ["title", "galleryWrap","price", "category"])
         .populate("user", ["username"])
         .exec();
-      return res.send(clothesBMFound);
+      return res.status(200).send(clothesBMFound);
     } catch (e) {
         console.log(e)
       return res.status(500).send(e);
@@ -36,12 +36,21 @@ router.get("/:_user_id", async (req, res) => {
       .status(400)
       .send("error");
   }
-  let wishlistFound = await Wishlist.find({ user: _user_id })
-    .populate("item", ["title", "galleryWrap","price", "category"])
+  let wishlistFound = await Wishlist.findOne({ user: _user_id })
+    .populate("items", ["title", "galleryWrap","price", "category"])
     .exec();
+
+    if (!wishlistFound) {
+      let newWishlist = new Wishlist({
+        items: [],
+        user: req.user._id,
+      });
+      let savedWishlist = await newWishlist.save();
+      return res.status(200).send(savedWishlist);
+    }
   
 
-  return res.send(wishlistFound);
+  return res.status(200).send(wishlistFound);
 });
 
 // 用item id尋找wishlist
@@ -50,11 +59,22 @@ router.get("/item/:_id", async (req, res) => {
     let userid = req.user._id;
 
     try {
-      let wishlistFound = await Wishlist.findOne({ item: _id, user: userid })
-        .populate("item", ["title", "galleryWrap","price", "category"])
-        .exec();
+      let userFound = await Wishlist.findOne({user: userid}).exec();
 
-        return res.send(Boolean(wishlistFound));
+      if (!userFound) {
+        return res.status(404).send("找不到用戶");
+      }
+
+      const itemIndex = userFound.items.findIndex((i) => i.equals(_id));
+      // let wishlistFound = await Wishlist.findOne({ items: userFound.items[itemIndex]._id, user: userid })
+      //   .populate("items", ["title", "galleryWrap","price", "category"])
+      //   .exec();
+
+      if (itemIndex === -1) {
+        return res.status(200).send(false);
+      } else {
+        return res.status(200).send(true);
+      }
       // return res.send(wishlistFound);
     } catch (e) {
       return res.status(500).send(e);
@@ -63,39 +83,52 @@ router.get("/item/:_id", async (req, res) => {
 
 // 新增
 router.post("/", async (req, res) => {
-    // 驗證數據符合規範
-    let { error } = wishlistValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-  
-    if (req.user.isAdmin()) {
-      return res
-        .status(400)
-        .send("只有user才能管理自己的wishlist。");
-    }
-  
-    let { item } = req.body;
-    
-    try {
-        let clothID = await Cloth.findOne({ _id: item }).exec();
-        let itemFound = await Wishlist.findOne({ item: clothID._id, user: req.user._id }).exec();
-        
-        if (!clothID) {
-            return res.status(404).send("找不到对应的Cloth。");
-        }
-        if (itemFound) {
-            return res.status(404).send("已加到wishlist");
-        }
+  if (req.user.isAdmin()) {
+    return res
+      .status(400)
+      .send("只有user才能管理自己的wishlist。");
+  }
+  let { error } = wishlistValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
 
-      let newWishlist = new Wishlist({
-        item: clothID,
-        user: req.user,
-      });
-      let savedWishlist = await newWishlist.save();
-      let updatedData = await ClothesBM.findOneAndUpdate({item: clothID._id}, { $push: { user: savedWishlist.user }}).exec();
-      return res.send({savedWishlist, updatedData});
-    } catch (e) {
-      return res.status(500).send(e);
-    }
+  let { item } = req.body; //_id
+  
+  try {
+    let clothID = await Cloth.findOne({ _id: item }).exec();
+    if (!clothID) {
+      return res.status(404).send("This item does not exist.");
+    }      
+      let userFound = await Wishlist.findOne({user: req.user._id}).exec();
+
+      if (!userFound) {
+        let newWishlist = new Wishlist({
+          items: [clothID._id],
+          user: req.user._id,
+        });
+        let savedWishlist = await newWishlist.save();
+        let updatedData = await ClothesBM.findOneAndUpdate({item: clothID._id}, { $push: { user: savedWishlist.user }}).exec();
+        return res.status(200).send({savedWishlist, updatedData});
+      }
+
+      const itemIndex = userFound.items.findIndex((i) => i._id.equals(item));
+      
+      if (itemIndex === -1) {
+        const updatedWishlist = await Wishlist.findOneAndUpdate(
+          { user: req.user._id },
+          { $push: { items: clothID._id }},
+          { new: true }
+        ).populate("items", ["title", "galleryWrap","price", "category"]).exec();
+
+        let updatedData = await ClothesBM.findOneAndUpdate({item: clothID._id}, { $push: { user: updatedWishlist.user }}).exec();
+        return res.status(200).send({updatedWishlist, updatedData});
+      } else {
+        return res.status(404).send("Added to the wishlist");
+      }
+      
+  } catch (e) {
+    console.error(e);
+    return res.status(500).send(e.message);
+  }
 });
 
 router.delete("/item/:_id", async (req, res) => {
@@ -107,14 +140,26 @@ router.delete("/item/:_id", async (req, res) => {
   }
 
   try {
-    let wishlistFound = await Wishlist.findOne({ item: _id, user: req.user._id }).exec();
+    let wishlistFound = await Wishlist.findOne({user: req.user._id}).exec();
+
     if (!wishlistFound) {
-      return res.status(400).send("無法刪除課程。");
+      return res.status(404).send("wishlist has not been built");
     }
 
-    let deletedWishlist = await Wishlist.deleteOne({ item: _id, user: req.user._id }).exec();
-    let updatedData = await ClothesBM.findOneAndUpdate({item: _id}, { $pull: {user: req.user._id} }).exec();
-    return res.send({deletedWishlist, updatedData});
+    let clothID = await Cloth.findOne({ _id: _id }).exec();
+    if (!clothID) {
+      return res.status(404).send("This item does not exist.");
+    }
+
+    const itemIndex = wishlistFound.items.findIndex((i) => i.equals(_id));
+    
+    if (itemIndex > -1) {
+      let deletedWishlist = await Wishlist.findOneAndUpdate({user: req.user._id}, { $pull: { items: clothID._id }}).exec();
+      let updatedData = await ClothesBM.findOneAndUpdate({item: _id}, { $pull: {user: req.user._id} }).exec();
+      return res.status(200).send({deletedWishlist, updatedData});
+    }else {
+      return res.status(404).send("deleted");
+    }
   
   } catch (e) {
     return res.status(500).send(e);

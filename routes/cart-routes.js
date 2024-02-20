@@ -38,7 +38,12 @@ router.get("/:_user_id", async (req, res) => {
     .exec();
 
   if (!cartFound) {
-    return res.status(404).send("Cart not found.");
+    let newCartItem = new CartItem({
+      items: [],
+      user: _user_id,
+    });
+    let savedCartItem = await newCartItem.save();
+    return res.status(201).send(savedCartItem);
   }
 
   return res.send(cartFound);
@@ -53,7 +58,7 @@ router.post("/", async (req, res) => {
         let clothID = await Cloth.findOne({ _id: item._id }).exec();
                 
         if (!clothID) {
-            return res.status(404).send("找不到对应的Cloth。");
+            return res.status(404).send("This item does not exist.");
         }
 
         let userFound = await CartItem.findOne({user: req.user._id}).exec();
@@ -119,7 +124,7 @@ router.post("/update", async (req, res) => {
         }).populate("items.item", ["title", "galleryWrap","price", "category"]).exec(); //一定要popalate, 否則只回傳id到前端
         return res.status(200).send(newData);
     } else {
-      return res.status(404).send("找不到对应的user。");
+      return res.status(404).send("User cart is not found.");
     }
 
 
@@ -134,7 +139,7 @@ router.delete("/allitem", async (req, res) => {
   try {
     let itemFound = await CartItem.findOne({ user: req.user._id }).exec();
     if (!itemFound) {
-      return res.status(400).send("無法刪除");
+      return res.status(400).send("cannot delete");
     }
 
     let deletedCartItem = await CartItem.deleteOne({ user: req.user._id }).exec();
