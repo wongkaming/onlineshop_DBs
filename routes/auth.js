@@ -31,17 +31,24 @@ router.post("/register", async (req, res) => {
   if (emailExist) return res.status(400).send("Account already exists.");
 
   // 製作新用戶
-  let { email, username, password, role } = req.body;
-
+  let { email, username, password, role, confirmPassword } = req.body;
 
   try {
-    let newUser = new User({ email, username, password, role });
-    let savedUser = await newUser.save();
+    if (password !== confirmPassword) {
+      return res.status(400).send("Passwords do not match.");
+    } else {
+      const accountCount = await User.countDocuments();
+      if (accountCount < 26) {
+      let newUser = new User({ email, username, password, role });
+      let savedUser = await newUser.save();
 
-    return res.send({
-      msg: "使用者成功儲存。",
-      savedUser,
-    });
+      return res.send({
+        msg: "使用者成功儲存。",
+        savedUser,
+      });} else {
+        return res.status(400).send("The maximum number of registered users has been reached.")
+      }
+    }
   } catch (e) {
     return res.status(500).send("Your account cannot be created at this time. Please try it later.");
   }
