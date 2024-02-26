@@ -6,25 +6,6 @@ router.use((req, res, next) => {
   next();
 });
 
-// 獲得所有user的cart
-// router.get("/admin", async (req, res) => {
-//   if (req.user.isUser()) {
-//     return res
-//       .status(400)
-//       .send("只有admin才能觀看。");
-//   }
-//     try {
-//       let clothesBMFound = await ClothesBM.find({})
-//         .populate("item", ["title", "galleryWrap","price", "category"])
-//         .populate("user", ["username"])
-//         .exec();
-//       return res.send(clothesBMFound);
-//     } catch (e) {
-//         console.log(e)
-//       return res.status(500).send(e);
-//     }
-// });
-
 // 用user id來尋找自己的cart
 router.get("/:_user_id", async (req, res) => {
   let { _user_id } = req.params;
@@ -74,25 +55,23 @@ router.post("/", async (req, res) => {
 
 
         const itemIndex = userFound.items.findIndex((i) => 
-            i.item._id.equals(item._id) && //应该使用 Mongoose 的 .equals 方法来比较 ObjectIDs
+            i.item._id.equals(item._id) && //用 Mongoose 的 .equals 方法
             i.size === size &&
             (!color || i.color === color)
         );
         if (itemIndex > -1) {
-            // 商品已经存在于购物车
             if (userFound.items[itemIndex].quantity == 3) {
                 return res.status(400).send("已加到cart, 已有3件");
             }
             const updatedCartItem = await CartItem.findOneAndUpdate(
                 { "user": req.user._id, "items._id": userFound.items[itemIndex]._id },
-                { $inc: { "items.$.quantity": 1 } }, //$inc 增加数量
+                { $inc: { "items.$.quantity": 1 } }, 
                 { new: true }
             ).populate("items.item", ["title", "galleryWrap","price", "category"]).exec();
 
             return res.status(200).send(updatedCartItem);
 
         } else {
-            // 商品不存在于购物车，添加新商品
             const updatedCartItem = await CartItem.findOneAndUpdate(
               { user: req.user._id },
               { $push: { items: { $each: [{item, size, color, quantity}], $position:0 } } },
@@ -115,7 +94,7 @@ router.post("/update", async (req, res) => {
     let userFound = await CartItem.findOne({user: req.user._id}).exec();
     if (userFound) {
       let newData = await CartItem.findByIdAndUpdate(
-        userFound._id, //findByIdAndUpdate函数的第一个参数应该是想要更新文档的_id，而不是查询条件对象。您应该先从userFound对象中获取_id，然后把它作为第一个参数传递。
+        userFound._id,
         { items: updatedItems },
         {
             new: true,

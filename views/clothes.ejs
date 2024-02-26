@@ -33,18 +33,16 @@
         // }
 
         $('form').on('submit', function(event) {
-            event.preventDefault(); // 阻止表单提交
+            event.preventDefault();
             var form = $(this);
             var url = form.attr('action');
             var itemId = form.find('input[name="itemId"]').val();
 
-            // 发送异步请求到服务器
             $.ajax({
                 url: url,
                 type: 'POST',
                 data: { itemId: itemId },
                 success: function(response) {
-                    // 创建新的列表项元素并插入到列表中
                     var newItem = '<li><a href="/latest/clothes/' + response._id + '">' + response.title + '</a></li>';
                     $('#clothesList').append(newItem);
                 },
